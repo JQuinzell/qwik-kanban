@@ -29,5 +29,7 @@ model Card {
   name String
   list List @relation(fields: [listId], references: [id])
   listId String
-  index Int @unique
+  index Int
+
+  @@unique([listId, index])
 }
