@@ -22,23 +22,20 @@ export default component$(() => {
   const createBoardAction = useCreateBoard();
 
   return (
-    <main class="grid grid-cols-[300px_1fr]">
-      <nav></nav>
-      <div>
-        <h2 class="mb-4 text-left text-xl font-bold">Boards</h2>
-        <div class="grid grid-cols-4 gap-x-4 gap-y-8">
-          {boardsSignal.value.map((board) => (
-            <BoardCard key={board.id} board={board} />
-          ))}
+    <div class="p-10">
+      <h2 class="mb-4 text-left text-xl font-bold">Boards</h2>
+      <div class="grid grid-cols-4 gap-x-4 gap-y-8">
+        {boardsSignal.value.map((board) => (
+          <BoardCard key={board.id} board={board} />
+        ))}
 
-          <CreateBoard
-            onCreate$={(name) => {
-              createBoardAction.submit({ name });
-            }}
-          />
-        </div>
+        <CreateBoard
+          onCreate$={(name) => {
+            createBoardAction.submit({ name });
+          }}
+        />
       </div>
-    </main>
+    </div>
   );
 });
 

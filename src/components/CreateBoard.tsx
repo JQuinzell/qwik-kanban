@@ -27,10 +27,7 @@ export const CreateBoard = component$((props: Props) => {
         <div>
           <div class="flex">
             <p>Create a board</p>
-            <button
-              class="btn btn-circle btn-outline btn-ghost ml-auto"
-              onClick$={clear}
-            >
+            <button class="btn btn-outline btn-ghost ml-auto" onClick$={clear}>
               X
             </button>
           </div>
