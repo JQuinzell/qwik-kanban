@@ -27,13 +27,17 @@ export const CreateBoard = component$((props: Props) => {
         <div>
           <div class="flex">
             <p>Create a board</p>
-            <button class="ml-auto" onClick$={clear}>
+            <button
+              class="btn btn-circle btn-outline btn-ghost ml-auto"
+              onClick$={clear}
+            >
               X
             </button>
           </div>
           <hr />
           <input
             type="text"
+            class="input input-bordered"
             placeholder="Name"
             value={name.value}
             onChange$={(ev, el) => (name.value = el.value)}
