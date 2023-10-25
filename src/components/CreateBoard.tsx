@@ -40,7 +40,7 @@ export const CreateBoard = component$((props: Props) => {
             onChange$={(ev, el) => (name.value = el.value)}
           />
           <button
-            class="btn"
+            class="btn btn-primary"
             onClick$={() => {
               props.onCreate$(name.value);
               clear();
