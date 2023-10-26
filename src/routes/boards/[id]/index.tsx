@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { List } from "~/components/List";
+import type { Card } from "~/db";
 import { db } from "~/db";
 
 export const useBoard = routeLoader$(async (req) => {
@@ -22,6 +23,15 @@ export const useCreateCard = routeAction$(async (data) => {
     },
   });
   return res;
+});
+
+export const useMoveCard = routeAction$(async (data) => {
+  const target = data.target as Card;
+  const destination = data.destination as Card;
+  await db.card.update({
+    where: { id: target.id },
+    data: { listId: destination.listId, index: destination.index + 1 },
+  });
 });
 
 export default component$(() => {

@@ -6,10 +6,12 @@ import {
 } from "@builder.io/qwik";
 import type { Card as CardModel } from "~/db";
 import { DragContext } from "~/hooks/context";
+import { useMoveCard } from "~/routes/boards/[id]";
 
 export const Card = component$(({ card }: { card: CardModel }) => {
   const ref = useSignal<HTMLElement>();
   const draggedCard = useContext(DragContext);
+  const moveAction = useMoveCard();
 
   useVisibleTask$(({ cleanup }) => {
     const el = ref.value;
@@ -25,7 +27,9 @@ export const Card = component$(({ card }: { card: CardModel }) => {
     }
 
     function handleDrop() {
-      console.log("Dropping", draggedCard.value?.name, "onto", card.name);
+      const target = draggedCard.value;
+      if (!target) return;
+      moveAction.submit({ target, destination: card });
       draggedCard.value = null;
     }
 
