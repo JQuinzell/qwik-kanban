@@ -1,8 +1,11 @@
-import { component$ } from "@builder.io/qwik";
-import type { List as ListModel } from "~/db";
+import { component$, useSignal } from "@builder.io/qwik";
+import { type List as ListModel } from "~/db";
 import { Card } from "./Card";
+import { useCreateCard } from "~/routes/boards/[id]";
 
 export const List = component$(({ list }: { list: ListModel }) => {
+  const newCard = useSignal<string>();
+  const createCardAction = useCreateCard();
   return (
     <>
       <div class="w-[250px] bg-slate-300 p-5">
@@ -12,6 +15,34 @@ export const List = component$(({ list }: { list: ListModel }) => {
             <Card key={card.id} card={card} />
           ))}
         </ul>
+        {typeof newCard.value === "string" ? (
+          <div class="my-4">
+            <input
+              type="text"
+              class="input input-bordered"
+              value={newCard.value}
+              onChange$={(ev) => (newCard.value = ev.target.value)}
+            />
+            <button
+              class="btn"
+              onClick$={async () => {
+                console.log("creating a card");
+                const res = await createCardAction.submit({
+                  name: newCard.value,
+                  listId: list.id,
+                });
+                console.log(res);
+                newCard.value = undefined;
+              }}
+            >
+              Create card
+            </button>
+          </div>
+        ) : (
+          <button class="btn my-4" onClick$={() => (newCard.value = "")}>
+            Add a card
+          </button>
+        )}
       </div>
     </>
   );
