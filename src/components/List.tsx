@@ -3,7 +3,10 @@ import { type List as ListModel } from "~/db";
 import { Card } from "./Card";
 import { useCreateCard } from "~/routes/boards/[id]";
 
-export const List = component$(({ list }: { list: ListModel }) => {
+type Props = {
+  list: ListModel;
+};
+export const List = component$(({ list }: Props) => {
   const newCard = useSignal<string>();
   const createCardAction = useCreateCard();
   return (
@@ -25,13 +28,11 @@ export const List = component$(({ list }: { list: ListModel }) => {
             />
             <button
               class="btn"
-              onClick$={async () => {
-                console.log("creating a card");
-                const res = await createCardAction.submit({
+              onClick$={() => {
+                createCardAction.submit({
                   name: newCard.value,
                   listId: list.id,
                 });
-                console.log(res);
                 newCard.value = undefined;
               }}
             >

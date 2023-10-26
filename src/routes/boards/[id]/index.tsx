@@ -13,7 +13,6 @@ export const useBoard = routeLoader$(async (req) => {
 });
 
 export const useCreateCard = routeAction$(async (data) => {
-  console.log("creating card", data);
   const count = await db.card.count();
   const res = await db.card.create({
     data: {

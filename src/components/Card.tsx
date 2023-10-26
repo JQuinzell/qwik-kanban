@@ -5,7 +5,7 @@ import {
   useVisibleTask$,
 } from "@builder.io/qwik";
 import type { Card as CardModel } from "~/db";
-import { DragContext } from "~/routes/layout";
+import { DragContext } from "~/hooks/context";
 
 export const Card = component$(({ card }: { card: CardModel }) => {
   const ref = useSignal<HTMLElement>();
@@ -17,7 +17,7 @@ export const Card = component$(({ card }: { card: CardModel }) => {
 
     function handleDragStart() {
       console.log("Dragging card", card.id);
-      draggedCard.value = card;
+      draggedCard.value = { ...card };
     }
 
     function handleDragEnd() {

@@ -1,7 +1,5 @@
-import type { Signal } from "@builder.io/qwik";
 import {
   component$,
-  createContextId,
   Slot,
   useContextProvider,
   useSignal,
@@ -12,6 +10,7 @@ import type { RequestHandler } from "@builder.io/qwik-city";
 import type { Card } from "~/db";
 
 import styles from "./styles.css?inline";
+import { DragContext } from "~/hooks/context";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -29,8 +28,6 @@ export const useServerTimeLoader = routeLoader$(() => {
     date: new Date().toISOString(),
   };
 });
-
-export const DragContext = createContextId<Signal<Card | null>>("drag");
 
 export default component$(() => {
   const draggedCard = useSignal<null | Card>(null);
