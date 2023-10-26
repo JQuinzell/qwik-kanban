@@ -1,8 +1,17 @@
-import { component$, Slot, useStyles$ } from '@builder.io/qwik'
-import { routeLoader$ } from '@builder.io/qwik-city'
-import type { RequestHandler } from '@builder.io/qwik-city'
+import type { Signal } from "@builder.io/qwik";
+import {
+  component$,
+  createContextId,
+  Slot,
+  useContextProvider,
+  useSignal,
+  useStyles$,
+} from "@builder.io/qwik";
+import { routeLoader$ } from "@builder.io/qwik-city";
+import type { RequestHandler } from "@builder.io/qwik-city";
+import type { Card } from "~/db";
 
-import styles from './styles.css?inline'
+import styles from "./styles.css?inline";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -12,22 +21,27 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
     staleWhileRevalidate: 60 * 60 * 24 * 7,
     // Max once every 5 seconds, revalidate on the server to get a fresh version of this page
     maxAge: 5,
-  })
-}
+  });
+};
 
 export const useServerTimeLoader = routeLoader$(() => {
   return {
     date: new Date().toISOString(),
-  }
-})
+  };
+});
+
+export const DragContext = createContextId<Signal<Card | null>>("drag");
 
 export default component$(() => {
-  useStyles$(styles)
+  const draggedCard = useSignal<null | Card>(null);
+  useContextProvider(DragContext, draggedCard);
+
+  useStyles$(styles);
   return (
     <>
       <main>
         <Slot />
       </main>
     </>
-  )
-})
+  );
+});
